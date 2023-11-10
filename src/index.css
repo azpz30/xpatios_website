@@ -11,6 +11,7 @@
     #6d6d6d -78.47%,
     #11101d 91.61%
   );
+  --grey-gradient: linear-gradient(144.39deg, #ffffff -278.56%, #f0f0f0 -78.47%, #d3d3d3 91.61%);
   --card-shadow: 0px 20px 100px -10px rgba(66, 71, 91, 0.1);
 }
 
@@ -64,6 +65,10 @@
   );
 }
 
+.bg-grey-gradient-2 {
+  background-image: linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%);
+}
+
 .bg-gray-gradient {
   background: linear-gradient(
     153.47deg,
@@ -108,7 +113,7 @@
 }
 
 .feature-card:hover {
-  background: var(--black-gradient);
+  background: var(--grey-gradient);
   box-shadow: var(--card-shadow);
 }
 
@@ -121,7 +126,7 @@
 }
 
 .feedback-card:hover {
-  background: var(--black-gradient);
+  background: var(--grey-gradient);
 }
 
 .blue__gradient {

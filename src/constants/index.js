@@ -23,23 +23,23 @@ export const features = [
   {
     id: "feature-1",
     icon: star,
-    title: "Rewards",
+    title: "Expert Civil Engineering",
     content:
-      "The best credit cards offer some tantalizing combinations of promotions and prizes",
+      "Led by a seasoned civil engineer, our team brings expertise to every project, ensuring precision and excellence.",
   },
   {
     id: "feature-2",
     icon: shield,
-    title: "100% Secured",
+    title: "Dedicated Team",
     content:
-      "We take proactive steps make sure your information and transactions are secure.",
+      "We are a small, dedicated team of 3-5 professionals, providing personalized attention to meet your construction needs.",
   },
   {
     id: "feature-3",
     icon: send,
-    title: "Balance Transfer",
+    title: "Quality Construction",
     content:
-      "A balance transfer credit card can save you a lot of money in interest charges.",
+      "We go the extra mile, investing in top-tier materials and craftsmanship to create structures that are not only strong but also aesthetically pleasing and durable.",
   },
 ];
 
