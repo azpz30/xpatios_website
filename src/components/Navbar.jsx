@@ -2,7 +2,7 @@ import {useState} from 'react';
 import { close, logo, menu } from '../assets';
 import { navLinks } from '../constants';
 
-const Navbar = () => {
+const Navbar = ({onGalleryClick}) => {
   const [toggle, setToggle] = useState(false)
 
   return (
