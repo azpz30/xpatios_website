@@ -1,30 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { Link } from 'react-router-dom';
 import { close, logo, menu } from '../assets';
 import { navLinks } from '../constants';
 
-const Navbar = ({ onGalleryClick }) => {
-  const [toggle, setToggle] = useState(false);
-
-  useEffect(() => {
-    // Listen for changes in the hash (section changes)
-    const handleHashChange = () => {
-      if (window.location.hash === '#gallery') {
-        onGalleryClick();
-      }
-    };
-
-    window.addEventListener('hashchange', handleHashChange);
-
-    return () => {
-      window.removeEventListener('hashchange', handleHashChange);
-    };
-  }, [onGalleryClick]);
-
-  const handleGalleryClick = () => {
-    onGalleryClick();
-    // Update the URL hash to reflect the change
-    window.location.hash = 'gallery';
-  };
+const Navbar = () => {
+  const [toggle, setToggle] = React.useState(false);
 
   return (
     <nav className='w-full flex py-6 justify-between items-center navbar bg-transparent'>
@@ -33,13 +13,9 @@ const Navbar = ({ onGalleryClick }) => {
       <ul className='list-none sm:flex hidden justify-end items-center flex-1'>
         {navLinks.map((nav, index) => (
           <li key={nav.id} className={`font-poppins font-normal cursor-pointer text-[16px] ${index === navLinks.length - 1 ? 'mr-0' : 'mr-10'} text-black`}>
-            {nav.id === 'gallery' ? (
-              <a href='#' onClick={handleGalleryClick}>
-                {nav.title}
-              </a>
-            ) : (
-              <a href={`#${nav.id}`}>{nav.title}</a>
-            )}
+            <Link to={nav.id === 'gallery' ? '/gallery' : `/`}>
+              {nav.title}
+            </Link>
           </li>
         ))}
       </ul>
@@ -56,13 +32,9 @@ const Navbar = ({ onGalleryClick }) => {
           <ul className='list-none flex flex-col justify-end items-center flex-1'>
             {navLinks.map((nav, index) => (
               <li key={nav.id} className={`font-poppins font-normal cursor-pointer text-[16px] ${index === navLinks.length - 1 ? 'mr-0' : 'mb-4'} text-white`}>
-                {nav.id === 'gallery' ? (
-                  <a href='#' onClick={handleGalleryClick}>
-                    {nav.title}
-                  </a>
-                ) : (
-                  <a href={`#${nav.id}`}>{nav.title}</a>
-                )}
+                <Link to={nav.id === 'gallery' ? '/gallery' : `/`}>
+                  {nav.title}
+                </Link>
               </li>
             ))}
           </ul>

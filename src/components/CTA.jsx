@@ -88,7 +88,14 @@ const CTA = () => {
             <div className={`${styles.formGroup} mb-4`}>
               <label className={styles.formLabel}>
                 Description:
-                <textarea name="description" value={formData.description} onChange={handleInputChange} className={styles.formInput} required />
+                <textarea
+                  name="description"
+                  value={formData.description}
+                  onChange={handleInputChange}
+                  className={`${styles.formInput} w-full`}
+                  placeholder='Provide detailed information about the project, including your requirements, preferences, and any specific details you think are important. The more details you provide, the better we can assist you!'
+                  required
+                />
               </label>
             </div>
             <button type="submit" className={`${styles.button} ${styles.formButton} bg-green-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline-green active:bg-green-600`}>Send</button>

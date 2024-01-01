@@ -5,18 +5,18 @@ export const navLinks = [
     id: "home",
     title: "Home",
   },
-  {
-    id: "features",
-    title: "Features",
-  },
+  // {
+  //   id: "features",
+  //   title: "Features",
+  // },
   {
     id: "gallery",
     title: "Gallery",
   },
-  {
-    id: "clients",
-    title: "Clients",
-  },
+  // {
+  //   id: "clients",
+  //   title: "Clients",
+  // },
 ];
 
 export const features = [
@@ -47,24 +47,24 @@ export const feedback = [
   {
     id: "feedback-1",
     content:
-      "Excellent Work.",
-    name: "Mohammad Kabir",
+      "Very efficient and professional! Job well done. Highly recommended",
+    name: "Richard Zeaiter",
     title: "Customer",
     img: people01,
   },
   {
     id: "feedback-2",
     content:
-      "Very Happy With Work Ethic.",
-    name: "Hayden Smith",
+      "I am extremely pleased with the team at Xpatios as they were incredibly hardworking and completed the my outdoor insulated patio to a very high standard. From start to finish I was amazed at how experienced and professional they were and the pricing was very reasonable. I would recommend them if your wishing to do your Patios!",
+    name: "Aster Araya",
     title: "Customer",
     img: people02,
   },
   {
     id: "feedback-3",
     content:
-      "They Really Care About What They Dp",
-    name: "Suleiman Ahmed",
+      "The team of Xpatios were very professional, and conducted themselves in a very timely manner. They completed the job the way they promised. Their price is very fare and affordable. I highly recommend them. Thanks to Mr Tanvir and his team.",
+    name: "Me'o Ekhlass",
     title: "Customer",
     img: people03,
   },
