@@ -8,7 +8,6 @@ const currentFilePath = import.meta.url;
 // Determine the relative path to the images directory
 const imagePath = currentFilePath.substring(0, currentFilePath.lastIndexOf('/')) + '/../assets/xpGallery';
 
-// List of image file names
 const imageFiles = [
   'xp_gallery10.jpg', 'xp_gallery22.jpg', 'xp_gallery33.jpg', 'xp_gallery44.jpg',
   'xp_gallery12.jpg', 'xp_gallery23.jpg', 'xp_gallery34.jpg', 'xp_gallery45.jpg',
@@ -23,16 +22,16 @@ const imageFiles = [
   'xp_gallery21.jpg', 'xp_gallery32.jpg', 'xp_gallery43.jpg',
 ];
 
-// Dynamically import the images
-const images = imageFiles.map((imageName) => require(`${imagePath}/${imageName}`).default);
+// Dynamically import the images using import.meta.glob
+const imageModules = import.meta.globEager('../assets/xpGallery/*.jpg');
+const images = imageFiles.map((imageName) => imageModules[`../assets/xpGallery/${imageName}`]?.default);
 
 const PortfolioGallery = () => {
   return (
     <section id="gallery" className={layout.section}>
-      <div>PortfolioGallery</div>
       <GridGallery images={images} />
     </section>
-  )
-}
+  );
+};
 
 export default PortfolioGallery;

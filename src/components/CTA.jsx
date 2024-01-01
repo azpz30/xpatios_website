@@ -64,6 +64,9 @@ const CTA = () => {
         {/* Display the form only when isFormVisible is true */}
         {isFormVisible && (
           <form onSubmit={handleFormSubmit} className={`${styles.flexColumn} ${styles.marginTop}`}>
+            <p className={`${styles.paragraph} max-w-[470px] mt-5`}>
+              Fill out the form and hit submit for your free quote now!
+            </p> <br />
             <div className={`${styles.formGroup} mb-4`}>
               <label className={styles.formLabel}>
                 Name:
