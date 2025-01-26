@@ -6,7 +6,7 @@ const BUCKET_NAME = 'xpatios-website-assets';
 // Folder name
 const FOLDER_NAME = 'gallery-images';
 // Google Cloud API key
-const API_KEY = process.env.REACT_APP_API_KEY;
+const API_KEY = import.meta.env.VITE_API_KEY;
 
 const PortfolioGallery = () => {
   console.log("key debug: ", API_KEY)
