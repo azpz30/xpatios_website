@@ -9,6 +9,7 @@ const FOLDER_NAME = 'gallery-images';
 const API_KEY = process.env.REACT_APP_API_KEY;
 
 const PortfolioGallery = () => {
+  console.log("key debug: ", API_KEY)
   const [images, setImages] = useState([]);
 
   useEffect(() => {
