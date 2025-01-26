@@ -40,7 +40,6 @@ const PortfolioGallery = () => {
 
   return (
     <section id="gallery">
-      {console.log("Image array: ", images)}
       <GridGallery images={images} />
     </section>
   );
