@@ -42,7 +42,7 @@ const Footer = () => (
 
     <div className="w-full flex justify-between items-center md:flex-row flex-col pt-6 border-t-[1px] border-t-[#3F3E45]">
       <p className="font-poppins font-normal text-center text-[18px] leading-[27px] text-black">
-        Copyright Ⓒ 2023 Xpatios Pty Ltd. All Rights Reserved.
+        Copyright Ⓒ 2025 Xpatios Pty Ltd. All Rights Reserved.
       </p>
 
       <div style={{ backgroundColor: '#000000' }} className="flex flex-row md:mt-0 mt-6">
