@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import { features } from '../constants';
 import styles, { layout } from '../style';
 import Button from './Button';
+import emailjs from 'emailjs-com';
 
 const Business = () => {
 
   const [formData, setFormData] = useState({
     name: '',
+    email: '',
     phoneNumber: '',
     address: '',
     description: '',
@@ -26,6 +28,7 @@ const Business = () => {
     emailjs.send('service_fgb2d2k', 'template_w12v8t7', {
       to_name: 'Recipient Name',
       from_name: formData.name,
+      from_email: formData.email,
       phone_number: formData.phoneNumber,
       user_address: formData.address,
       user_description: formData.description,
@@ -40,6 +43,7 @@ const Business = () => {
     // Optionally, reset the form fields
     setFormData({
       name: '',
+      email: '',
       phoneNumber: '',
       address: '',
       description: '',
@@ -105,6 +109,19 @@ const Business = () => {
             </div>
             <div className={`${styles.formGroup} mb-4`}>
               <label className={styles.formLabel}>
+                Email:
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  className={styles.formInput}
+                  required
+                />
+              </label>
+            </div>
+            <div className={`${styles.formGroup} mb-4`}>
+              <label className={styles.formLabel}>
                 Phone Number:
                 <input
                   type="tel"
@@ -161,4 +178,4 @@ const Business = () => {
   )
 }
 
-export default Business
+export default Business;

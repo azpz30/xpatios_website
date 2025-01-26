@@ -1,24 +1,9 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useSwipeable } from "react-swipeable";
-import VisibilitySensor from "react-visibility-sensor";
 
 export default function GridGallery({ images }) {
-  // Tracks the currently selected image index
   const [currentIndex, setCurrentIndex] = useState(null);
-  // Controls the modal visibility
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [imagesShownArray, setImagesShownArray] = useState(
-    Array(images.length).fill(false)
-  );
-
-  const imageVisibleChange = (index, isVisible) => {
-    if (isVisible) {
-      setImagesShownArray((currentImagesShownArray) => {
-        currentImagesShownArray[index] = true;
-        return [...currentImagesShownArray];
-      });
-    }
-  };
 
   const openModal = (index) => {
     setCurrentIndex(index);
@@ -39,23 +24,20 @@ export default function GridGallery({ images }) {
 
   return (
     <>
-      <div className="grid grid-cols-3 gap-1">
-        {images &&
-          images.map((imageUrl, index) => (
-            <VisibilitySensor
-              key={index}
-              partialVisibility={true}
-              offset={{ bottom: 80 }}
-              onChange={(isVisible) => imageVisibleChange(index, isVisible)}
-            >
-              <div onClick={() => openModal(index)}>
-                <GridGalleryCard
-                  imageUrl={imageUrl}
-                  show={imagesShownArray[index]}
-                />
-              </div>
-            </VisibilitySensor>
-          ))}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
+        {images.map((imageUrl, index) => (
+          <div
+            key={index}
+            className="relative group cursor-pointer"
+            onClick={() => openModal(index)}
+          >
+            <img
+              src={imageUrl}
+              alt={`Image ${index + 1}`}
+              className="w-full h-auto object-cover rounded-lg shadow-md transition-transform duration-300 group-hover:scale-105"
+            />
+          </div>
+        ))}
       </div>
 
       {isModalOpen && (
@@ -70,30 +52,17 @@ export default function GridGallery({ images }) {
   );
 }
 
-function GridGalleryCard({ imageUrl, show }) {
-  return (
-    <div
-      className={`relative transition ease-in duration-300 transform ${
-        show ? "" : "translate-y-16 opacity-0"
-      }`}
-    >
-      <img src={imageUrl} alt="" className="w-full h-auto cursor-pointer" />
-    </div>
-  );
-}
-
 function Modal({ currentImage, onClose, onPrevious, onNext }) {
-  // Add swipe functionality
   const handlers = useSwipeable({
     onSwipedLeft: onNext,
     onSwipedRight: onPrevious,
     preventScrollOnSwipe: true,
-    trackMouse: true, // Enables swipe using mouse drag
+    trackMouse: true,
   });
 
   return (
     <div
-      {...handlers} // Attach swipe handlers to the container
+      {...handlers}
       className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50"
     >
       <button
@@ -110,8 +79,8 @@ function Modal({ currentImage, onClose, onPrevious, onNext }) {
       </button>
       <img
         src={currentImage}
-        alt=""
-        className="max-w-full max-h-screen object-contain"
+        alt="Current View"
+        className="max-w-full max-h-screen object-contain rounded-lg shadow-lg"
       />
       <button
         onClick={onNext}
