@@ -14,12 +14,14 @@ const PortfolioGallery = () => {
   useEffect(() => {
     const fetchImages = async () => {
       try {
+        console.log("key debug: ", API_KEY)
         // Query Google Cloud Storage API to list files from the specified folder
         const response = await fetch(
           `https://storage.googleapis.com/storage/v1/b/${BUCKET_NAME}/o?prefix=${FOLDER_NAME}&key=${API_KEY}`
         );
 
         if (!response.ok) {
+          console.log("key debug: ", API_KEY)
           throw new Error("Failed to fetch images from Google Cloud Storage.");
         }
 
