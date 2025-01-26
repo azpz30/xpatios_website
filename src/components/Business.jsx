@@ -26,7 +26,7 @@ const Business = () => {
 
     // Send email using EmailJS
     emailjs.send('service_fgb2d2k', 'template_w12v8t7', {
-      to_name: 'Recipient Name',
+      to_name: 'Tanvir HN',
       from_name: formData.name,
       from_email: formData.email,
       phone_number: formData.phoneNumber,

@@ -27,7 +27,7 @@ const CTA = () => {
       'service_fgb2d2k', // Replace with your EmailJS service ID
       'template_w12v8t7', // Replace with your EmailJS template ID
       {
-        to_name: 'Recipient Name',
+        to_name: 'Tanvir HN',
         from_name: formData.name,
         user_email: formData.email,
         phone_number: formData.phoneNumber,
