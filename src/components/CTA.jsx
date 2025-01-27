@@ -24,8 +24,8 @@ const CTA = () => {
 
     // Send email using EmailJS
     emailjs.send(
-      'service_fgb2d2k', // Replace with your EmailJS service ID
-      'template_w12v8t7', // Replace with your EmailJS template ID
+      'service_fgb2d2k', // EmailJS service ID
+      'template_w12v8t7', // EmailJS template ID
       {
         to_name: 'Tanvir HN',
         from_name: formData.name,
@@ -34,12 +34,13 @@ const CTA = () => {
         user_address: formData.address,
         user_description: formData.description,
       },
-      'Rl35Y5E3j58NqP-5d' // Replace with your EmailJS public key
+      'Rl35Y5E3j58NqP-5d' // EmailJS public key
     )
       .then((response) => {
-        console.log('Email sent successfully:', response);
+        alert('Email sent successfully!');
       })
       .catch((error) => {
+        alert('Failed to send the email. Please try again.');
         console.error('Error sending email:', error);
       });
 
