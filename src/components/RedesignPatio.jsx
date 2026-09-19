@@ -20,7 +20,7 @@ const RedesignPatio = () => {
             </p>
         </div>
         <div className={layout.sectionImg}>
-            <img src={patioDesigns} alt='patioDesigns' className="w-[100%] h-[100%]"/>
+            <img src={patioDesigns} alt='patioDesigns' className="w-full h-full"/>
         </div>
     </section>
   )

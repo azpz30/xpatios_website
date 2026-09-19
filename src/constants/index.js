@@ -74,17 +74,23 @@ export const stats = [
   {
     id: "stats-1",
     title: "Happy Clients",
-    value: "150+",
+    value: 150,
+    suffix: "+",
   },
   {
     id: "stats-2",
-    title: "Trusted by Companies",
-    value: "20+",
+    title: "Projects Completed",
+    value: 200,
+    suffix: "+",
   },
   {
+    // TODO(xpatios): placeholder — replace with the real figure before launch.
+    // Sydney competitors advertise 10–35 years; publishing an unverified
+    // number is a Consumer Law risk, not just a copy problem.
     id: "stats-3",
-    title: "Transaction",
-    value: "$150,000",
+    title: "Years Experience",
+    value: 10,
+    suffix: "+",
   },
 ];
 
@@ -108,15 +114,6 @@ export const footerLinks = [
       {
         name: "Blog",
         link: "https://www.facebook.com/profile.php?id=100083071642027",
-      },
-    ],
-  },
-  {
-    title: "Partner",
-    links: [
-      {
-        name: "Our Partner",
-        link: "https://www.stratco.com.au/",
       },
     ],
   },

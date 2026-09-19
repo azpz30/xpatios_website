@@ -1,10 +1,13 @@
 import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { reactRouter } from '@react-router/dev/vite'
+import tailwindcss from '@tailwindcss/vite'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  // Absolute base so nested client-side routes (e.g. /services/metal-roofing-sydney)
+  // Absolute base so nested routes (e.g. /services/metal-roofing-sydney)
   // and trailing-slash URLs still resolve /assets/* correctly.
   base: '/',
-  plugins: [react()],
+  // Tailwind v4 via its Vite plugin rather than PostCSS: faster, and it avoids
+  // Vite's postcss-import trying to resolve `@import "tailwindcss"` as a file.
+  plugins: [tailwindcss(), reactRouter()],
 })
