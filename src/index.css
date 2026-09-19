@@ -1,12 +1,83 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap')
-layer(base);
+/* Self-hosted variable fonts. No Google Fonts round trip. */
+@import '@fontsource-variable/fraunces';
+@import '@fontsource-variable/geist';
+@import '@fontsource-variable/geist-mono';
 
 @import 'tailwindcss';
 
 @theme {
-  /* Breakpoints. The v3 config *replaced* the defaults rather than extending
-     them, so reset first — otherwise Tailwind's own sm/md/lg/xl/2xl remain
-     alongside these and `md:` would mean two different widths. */
+  /* ── Editorial Monochrome ───────────────────────────────────────────
+     Never true #000 on true #fff — it reads harsh and default at scale.
+     Off-black on off-white reads designed. */
+  --color-paper: #fafafa;
+  --color-surface: #f4f4f5;
+  --color-ink: #1a1a1c;
+  /* NOTE: named --color-graphite, not --color-body. In Tailwind v4 a
+     --color-body token and a --text-body token both compile to the
+     utility `text-body`, and the colour namespace silently wins — the
+     font-size variant is never generated. Keep colour and size token
+     names disjoint. */
+  --color-graphite: #3f3f46;
+  /* #71717a measured 4.40:1 on --color-surface — under the 4.5 AA floor
+     for normal text. #6b6b74 clears it on both paper (5.05) and surface
+     (4.80) with no visible change in character. */
+  --color-muted: #6b6b74;
+  /* Decorative rules are exempt from WCAG 1.4.11's 3:1, but here the
+     hairline is the ONLY thing separating list rows, so it needs to be
+     genuinely perceivable. #e4e4e7 measured 1.22:1; this is 1.61:1 —
+     still quiet, materially easier to see. Hitting a true 3:1 would need
+     ~#949499, which reads as a heavy border and breaks the language. */
+  --color-hairline: #c7c7cc;
+
+  /* The accent gets exactly ONE role: CTA fill + link hover.
+     Never more than ~2% of a viewport, never two roles on one screen. */
+  /* The brand red from the logo mark. Chosen over an arbitrary blue because
+     it's already the company's colour, and it clears AA comfortably:
+     7.29:1 on paper, 7.61:1 for white text on the fill.
+     One step darker than the literal logo red (~#d82828), which reads too
+     bright as a large fill. */
+  --color-accent: #a80f26;
+  --color-accent-hover: #8e0c20;
+
+  /* ── Type ───────────────────────────────────────────────────────── */
+  --font-display: 'Fraunces Variable', ui-serif, Georgia, serif;
+  --font-sans: 'Geist Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'Geist Mono Variable', ui-monospace, monospace;
+
+  /* Fluid scale, 375 → 1440px. Negative tracking on display sizes is
+     mandatory — oversized type at default tracking is a stretched
+     heading, not a headline. */
+  --text-display: clamp(3rem, 1.2rem + 8.9vw, 7rem);
+  --text-display--line-height: 0.92;
+  --text-display--letter-spacing: -0.035em;
+
+  --text-h1: clamp(2.25rem, 1.1rem + 5.4vw, 4.5rem);
+  --text-h1--line-height: 0.98;
+  --text-h1--letter-spacing: -0.03em;
+
+  --text-h2: clamp(1.75rem, 1.1rem + 3.2vw, 3rem);
+  --text-h2--line-height: 1.05;
+  --text-h2--letter-spacing: -0.025em;
+
+  --text-h3: clamp(1.375rem, 1.05rem + 1.6vw, 2rem);
+  --text-h3--line-height: 1.15;
+  --text-h3--letter-spacing: -0.015em;
+
+  --text-lede: clamp(1.125rem, 1rem + 0.7vw, 1.375rem);
+  --text-lede--line-height: 1.45;
+  --text-lede--letter-spacing: -0.005em;
+
+  --text-body: clamp(1rem, 0.95rem + 0.25vw, 1.0625rem);
+  --text-body--line-height: 1.6;
+
+  --text-small: clamp(0.8125rem, 0.8rem + 0.1vw, 0.875rem);
+  --text-small--line-height: 1.5;
+
+  --text-label: 0.75rem;
+  --text-label--line-height: 1.4;
+  --text-label--letter-spacing: 0.08em;
+
+  /* Breakpoints — v3 config replaced defaults, so reset then redeclare. */
   --breakpoint-*: initial;
   --breakpoint-xs: 480px;
   --breakpoint-ss: 620px;
@@ -14,184 +85,169 @@ layer(base);
   --breakpoint-md: 1060px;
   --breakpoint-lg: 1200px;
   --breakpoint-xl: 1700px;
-
-  /* Brand colours. These are the legacy template values and are scheduled for
-     replacement by the "Surfmist Steel" palette in the Phase 2 design system. */
-  --color-primary: #00040f;
-  --color-secondary: #00f6ff;
-  --color-dimWhite: rgba(255, 255, 255, 0.7);
-  --color-dimBlack: rgba(0, 0, 0, 0.7);
-  --color-customRed: #c4122d;
-  --color-dimBlue: rgba(9, 151, 124, 0.1);
-
-  --font-poppins: "Poppins", sans-serif;
 }
 
-/*
-  The default border color has changed to `currentcolor` in Tailwind CSS v4,
-  so we've added these compatibility styles to make sure everything still
-  looks the same as it did with Tailwind CSS v3.
-
-  If we ever want to remove these styles, we need to add an explicit border
-  color utility to any element that depends on these defaults.
-*/
 @layer base {
-  *,
-  ::after,
-  ::before,
-  ::backdrop,
-  ::file-selector-button {
-    border-color: var(--color-gray-200, currentcolor);
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    font-optical-sizing: auto;
+  }
+
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-graphite);
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    line-height: 1.6;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    color: var(--color-ink);
+    font-weight: 400;
+    text-wrap: balance;
+  }
+
+  p { text-wrap: pretty; }
+
+  /* Colour is rationed, so focus has to be unmistakable. */
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: 2px;
   }
 }
 
-:root {
-  --black-gradient: linear-gradient(
-    144.39deg,
-    #ffffff -278.56%,
-    #6d6d6d -78.47%,
-    #11101d 91.61%
-  );
-  --grey-gradient: linear-gradient(144.39deg, #ffffff -278.56%, #f0f0f0 -78.47%, #d3d3d3 91.61%);
-  --card-shadow: 0px 20px 100px -10px rgba(66, 71, 91, 0.1);
+@layer utilities {
+  /* Break a contained child out to full viewport width. */
+  .full-bleed {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  /* Hairlines do the work cards and shadows used to. */
+  .hairline-t { border-top: 1px solid var(--color-hairline); }
+  .hairline-b { border-bottom: 1px solid var(--color-hairline); }
+
+  /* 3–5% grain over large flat fields stops them reading as an empty
+     Figma frame. Static tile, not live feTurbulence — 53 live SVG
+     filters will drop frames on mid-range Android. */
+  .grain::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* Photography stays in COLOUR. Colorbond colour (Monument / Surfmist /
+     Woodland Grey) and timber species (Merbau vs Spotted Gum) are part of
+     what the customer is choosing — greyscale removes decision-relevant
+     information from a high-consideration visual purchase.
+     This is a light normalising grade instead: it pulls an inconsistent
+     phone-camera set slightly closer together without touching hue.
+     Consistent crop ratios do most of the unifying work anyway. */
+  .photo-grade {
+    filter: saturate(0.94) contrast(1.06) brightness(1.01);
+  }
+
+  /* Greyscale is retained for ONE purpose: abstract texture crops used as
+     backgrounds behind type, where the image is a surface rather than a
+     product being sold. Do not apply to gallery or project photography. */
+  .photo-texture {
+    filter: grayscale(1) contrast(1.1);
+  }
+
+  /* Scroll reveal, CSS-only. 87.22% support; the rest see content
+     statically visible, which is the correct fallback. */
+  /* Scroll effects are CSS-only: `animation-timeline` runs on the
+     compositor, so there is no JS, no scroll listener and no main-thread
+     cost. ~87% browser support; the @supports guard means the remaining
+     ~13% simply see content in its final state, which is the correct
+     fallback rather than a broken one.
+
+     Values follow docs/03-DESIGN-DIRECTION.md §9: short travel (16-32px),
+     opacity and transform together, no bounce, nothing scroll-jacked. */
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .reveal {
+        animation: reveal-in linear both;
+        animation-timeline: view();
+        animation-range: entry 10% cover 28%;
+      }
+
+      /* Children arrive in sequence rather than as a block. With a view()
+         timeline there is no animation-delay, so the stagger comes from
+         pushing each child's range start slightly further into the scroll. */
+      .reveal-stagger > * {
+        animation: reveal-in linear both;
+        animation-timeline: view();
+        animation-range: entry 4% cover 26%;
+      }
+      .reveal-stagger > *:nth-child(2) { animation-range: entry 8% cover 30%; }
+      .reveal-stagger > *:nth-child(3) { animation-range: entry 12% cover 34%; }
+      .reveal-stagger > *:nth-child(4) { animation-range: entry 16% cover 38%; }
+      .reveal-stagger > *:nth-child(5) { animation-range: entry 20% cover 42%; }
+      .reveal-stagger > *:nth-child(n + 6) { animation-range: entry 24% cover 46%; }
+
+      /* Media wipes up behind its own frame instead of fading. Reads more
+         deliberate than opacity alone on a large image. */
+      .reveal-media img {
+        animation: media-in linear both;
+        animation-timeline: view();
+        animation-range: entry 5% cover 35%;
+      }
+
+      /* Hero photography drifts slower than the page. Deliberately small:
+         large parallax displacement is both dated and a motion-sickness
+         trigger. Uses the scroll() timeline since the hero starts in view. */
+      .parallax-hero {
+        animation: parallax-drift linear both;
+        animation-timeline: scroll();
+        animation-range: 0 90vh;
+      }
+
+      /* Thin progress line under the header. */
+      .scroll-progress {
+        animation: progress-grow linear both;
+        animation-timeline: scroll();
+        transform-origin: 0 50%;
+      }
+    }
+  }
+
+  @keyframes reveal-in {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes media-in {
+    from { opacity: 0; clip-path: inset(18% 0 0 0); transform: scale(1.03); }
+    to   { opacity: 1; clip-path: inset(0 0 0 0);   transform: scale(1); }
+  }
+
+  @keyframes parallax-drift {
+    from { transform: translateY(0); }
+    to   { transform: translateY(6%); }
+  }
+
+  @keyframes progress-grow {
+    from { transform: scaleX(0); }
+    to   { transform: scaleX(1); }
+  }
 }
 
-* {
-  scroll-behavior: smooth;
-}
-
+/* Remove displacement, keep crossfades. 0.01ms not 0ms — some engines
+   treat 0 as falsy and skip transitionend, breaking dependent JS. */
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
+  *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-}
-
-.text-gradient {
-  background: radial-gradient(
-    64.18% 64.18% at 71.16% 35.69%,
-    #def9fa 0.89%,
-    #bef3f5 17.23%,
-    #9dedf0 42.04%,
-    #7de7eb 55.12%,
-    #5ce1e6 71.54%,
-    #33bbcf 100%
-  );
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  color: transparent;
-}
-
-.bg-blue-gradient {
-  background: linear-gradient(
-    157.81deg,
-    #def9fa -43.27%,
-    #bef3f5 -21.24%,
-    #9dedf0 12.19%,
-    #7de7eb 29.82%,
-    #5ce1e6 51.94%,
-    #33bbcf 90.29%
-  );
-}
-
-.bg-black-gradient {
-  background: linear-gradient(
-    144.39deg,
-    #ffffff -278.56%,
-    #6d6d6d -78.47%,
-    #11101d 91.61%
-  );
-}
-
-.bg-black-gradient-2 {
-  background: linear-gradient(
-    -168.39deg,
-    #ffffff -278.56%,
-    #6d6d6d -78.47%,
-    #11101d 91.61%
-  );
-}
-
-.bg-grey-gradient-2 {
-  background-image: linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%);
-}
-
-.bg-gray-gradient {
-  background: linear-gradient(
-    153.47deg,
-    rgba(255, 255, 255, 0) -341.94%,
-    #14101d 95.11%
-  );
-}
-
-.bg-discount-gradient {
-  background: linear-gradient(125.17deg, #272727 0%, #11101d 100%);
-}
-
-.box-shadow {
-  box-shadow: 0px 20px 100px -10px rgba(66, 71, 91, 0.1);
-}
-
-.sidebar {
-  -webkit-animation: slide-top 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
-  animation: slide-top 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
-}
-
-@-webkit-keyframes slide-top {
-  0% {
-    -webkit-transform: translateY(100px);
-    transform: translateY(100px);
-  }
-  100% {
-    -webkit-transform: translateY(0);
-    transform: translateY(0);
-  }
-}
-
-@keyframes slide-top {
-  0% {
-    -webkit-transform: translateY(100px);
-    transform: translateY(100px);
-  }
-  100% {
-    -webkit-transform: translateY(0);
-    transform: translateY(0);
-  }
-}
-
-.feature-card:hover {
-  background: var(--grey-gradient);
-  box-shadow: var(--card-shadow);
-}
-
-.feedback-container .feedback-card:last-child {
-  margin-right: 0px;
-}
-
-.feedback-card {
-  background: transparent;
-}
-
-.feedback-card:hover {
-  background: var(--grey-gradient);
-}
-
-.blue__gradient {
-  background: linear-gradient(180deg, rgba(188, 165, 255, 0) 0%, #214d76 100%);
-  filter: blur(123px);
-}
-
-.pink__gradient {
-  background: linear-gradient(90deg, #f4c4f3 0%, #fc67fa 100%);
-  filter: blur(900px);
-}
-
-.white__gradient {
-  background: rgba(255, 255, 255, 0.6);
-  filter: blur(750px);
 }

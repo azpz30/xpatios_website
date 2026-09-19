@@ -1,37 +1,43 @@
 import { stats } from '../constants'
-import styles from '../style'
 import { useCountUp } from '../hooks/useCountUp'
+import { Section, Label } from './ui'
 
+// Count-up logic is untouched — see useCountUp for why it starts at the
+// final value (SSR/no-JS) and bails under prefers-reduced-motion.
 const Stat = ({ value, suffix, title }) => {
   const [ref, display] = useCountUp(value)
 
   return (
-    <div className='flex-1 flex justify-start items-center flex-row m-3'>
-      <h4
+    <div className="flex-1 px-3 py-6 text-center sm:px-8 sm:py-0">
+      <p
         ref={ref}
         // aria-label carries the settled value so screen readers announce the
         // real figure once, instead of every intermediate tick.
         aria-label={`${value}${suffix ?? ''} ${title}`}
-        className='font-poppins font-semibold xs:text-[40px] text-[30px] xs:leading-[53px] leading-[43px] text-black tabular-nums'
+        className="font-display text-h1 text-ink tabular-nums"
       >
-        <span aria-hidden='true'>
+        <span aria-hidden="true">
           {Math.round(display).toLocaleString('en-AU')}
           {suffix}
         </span>
-      </h4>
-      <p className='font-poppins font-normal xs:text-[20px] text-[15px] xs:leading-[26px] leading-[21px] text-transparent bg-clip-text bg-linear-to-br from-blue-400 to-red-600 uppercase ml-3'>
-        {title}
       </p>
+      <Label as="p" className="mt-3">
+        {title}
+      </Label>
     </div>
   )
 }
 
 const Stats = () => (
-  <section className={`${styles.flexCenter} flex-row flex-wrap sm:mb-20 mb-6`}>
-    {stats.map((stat) => (
-      <Stat key={stat.id} {...stat} />
-    ))}
-  </section>
+  <Section spacing="tight" hairline>
+    {/* Centred band rather than pinned to either gutter. Stays horizontal
+        at every breakpoint. */}
+    <div className="reveal-stagger mx-auto flex w-full max-w-4xl flex-row divide-x divide-hairline">
+      {stats.map((stat) => (
+        <Stat key={stat.id} {...stat} />
+      ))}
+    </div>
+  </Section>
 )
 
 export default Stats

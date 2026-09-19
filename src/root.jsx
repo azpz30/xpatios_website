@@ -1,16 +1,15 @@
 import React from 'react';
-import { Links, Meta, Outlet, Scripts, ScrollRestoration } from 'react-router';
-import styles from './style';
+import { Links, Meta, Outlet, ScrollRestoration, Scripts, useLocation } from 'react-router';
 import { Navbar } from './components';
 import './index.css';
 
-const TITLE = 'Patios, Carports & Metal Roofing Sydney | XPatios';
+const TITLE = 'Patios, Carports & Metal Roofing Sydney | Xpatios';
 const DESCRIPTION =
   'Patios, carports, decking, fencing and Colorbond metal roofing built across Sydney. Engineer-led, Stratco-backed workmanship. Get your free quote today.';
 const URL = 'https://xpatios.com.au/';
 const OG_IMAGE = 'https://xpatios.com.au/og-image.jpg';
 const OG_IMAGE_ALT =
-  'Freestanding Colorbond patio with decking and downlights, built by XPatios in Sydney';
+  'Freestanding Colorbond patio with decking and downlights, built by Xpatios in Sydney';
 
 // Replaces index.html. `meta`/`links` are route-level, so each service page can
 // override the title and description without touching this file.
@@ -18,7 +17,7 @@ export const meta = () => [
   { title: TITLE },
   { name: 'description', content: DESCRIPTION },
   { property: 'og:type', content: 'website' },
-  { property: 'og:site_name', content: 'XPatios and Metal Roofing' },
+  { property: 'og:site_name', content: 'Xpatios and Metal Roofing' },
   { property: 'og:locale', content: 'en_AU' },
   { property: 'og:url', content: URL },
   { property: 'og:title', content: TITLE },
@@ -35,7 +34,12 @@ export const meta = () => [
 ];
 
 export const links = () => [
-  { rel: 'canonical', href: URL },
+  // NOTE: no canonical here. React Router CONCATENATES links() across every
+  // matched route, so a canonical declared at root cannot be overridden or
+  // removed by a child — it emitted a second, wrong canonical pointing at "/"
+  // on every non-home page. Canonicals are set per-page via `meta`
+  // (see src/pages/pageMeta.js), because meta receives route params and
+  // replaces by key rather than concatenating.
   { rel: 'icon', type: 'image/jpeg', href: '/xpatios.jpg' },
   { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
   { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossOrigin: 'anonymous' },
@@ -50,7 +54,7 @@ export function Layout({ children }) {
         <Meta />
         <Links />
       </head>
-      <body>
+      <body className="bg-paper text-body">
         {children}
         <ScrollRestoration />
         <Scripts />
@@ -59,20 +63,29 @@ export function Layout({ children }) {
   );
 }
 
-export default function Root() {
-  return (
-    <div className="bg-white w-full overflow-hidden">
-      <div className={`${styles.paddingX} ${styles.flexCenter}`}>
-        <div className={`${styles.boxWidth}`}>
-          <Navbar />
-        </div>
-      </div>
+// Navbar is a fixed, full-bleed header that manages its own inner
+// `Container` for alignment — wrapping it here would clip its edge-to-edge
+// background. Page content below is left unconstrained for the same
+// reason: `Section` (see components/ui/Section.jsx) already wraps its own
+// children in a `Container`, so nesting another padded `Container` around
+// `Outlet` would double every section's gutters. Full-bleed elements like
+// the hero use the `.full-bleed` utility to break out regardless.
+// Keep in sync with ROUTES_WITH_DARK_HERO in Navbar.jsx.
+const ROUTES_WITH_DARK_HERO = new Set(['/']);
 
-      <div className={`bg-white ${styles.paddingX} ${styles.flexStart}`}>
-        <div className={`${styles.boxWidth}`}>
-          <Outlet />
-        </div>
-      </div>
-    </div>
+export default function Root() {
+  const { pathname } = useLocation();
+  const overDarkHero = ROUTES_WITH_DARK_HERO.has(pathname);
+
+  return (
+    <>
+      <Navbar />
+      {/* The header is fixed, so it's out of flow. Pages that open with a
+          full-bleed hero deliberately sit underneath it; every other page
+          needs its own clearance or its first element hides behind the bar. */}
+      <main className={overDarkHero ? undefined : 'pt-20 md:pt-24'}>
+        <Outlet />
+      </main>
+    </>
   );
 }

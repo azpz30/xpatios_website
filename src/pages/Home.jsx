@@ -1,5 +1,3 @@
-import React from 'react';
-import styles from '../style';
 import {
   Hero,
   Stats,
@@ -11,13 +9,19 @@ import {
   Footer,
 } from '../components';
 
+import { pageMeta } from './pageMeta';
+
+export const meta = () =>
+  pageMeta({
+    title: 'Patios, Carports & Metal Roofing Sydney | Xpatios',
+    description:
+      'Patios, carports, decking, fencing and Colorbond metal roofing built across Sydney. Engineer-led, Stratco-backed workmanship. Get your free quote today.',
+    path: '/',
+  });
+
 const Home = () => (
   <>
-    <div className={`bg-white ${styles.flexStart}`}>
-      <div className={`${styles.boxWidth}`}>
-        <Hero />
-      </div>
-    </div>
+    <Hero />
     <Stats />
     <Business />
     <RedesignPatio />
