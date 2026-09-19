@@ -7,6 +7,9 @@ export default [
   {
     ignores: [
       'dist/**',
+      // react-router framework mode emits here instead of dist/
+      'build/**',
+      '.react-router/**',
       // Uses ESM `export const` syntax inside a .cjs file. It was never
       // linted before either: the old script was `eslint . --ext js,jsx`,
       // which did not match .cjs. Tailwind v4 (which replaces this file
@@ -56,6 +59,33 @@ export default [
     ],
     rules: {
       'no-unused-vars': 'off',
+    },
+  },
+  {
+    // react-router framework mode route modules must export `meta`, `links`,
+    // `loader`, etc. alongside the default component export. That is the
+    // framework's contract, not a Fast Refresh mistake — allowlist them.
+    files: ['src/root.jsx', 'src/routes.js', 'src/pages/**/*.jsx'],
+    rules: {
+      'react-refresh/only-export-components': [
+        'warn',
+        {
+          allowExportNames: [
+            'meta',
+            'links',
+            'headers',
+            'loader',
+            'clientLoader',
+            'action',
+            'clientAction',
+            'ErrorBoundary',
+            'HydrateFallback',
+            'Layout',
+            'handle',
+            'shouldRevalidate',
+          ],
+        },
+      ],
     },
   },
 ]

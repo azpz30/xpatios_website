@@ -12,6 +12,12 @@ dist
 dist-ssr
 *.local
 
+# react-router framework mode: build output and generated route types.
+# `build/` is covered by some global gitignores but not all — keep it here so
+# the repo is self-contained across machines.
+build
+.react-router
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

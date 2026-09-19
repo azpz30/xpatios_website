@@ -143,7 +143,7 @@ const CTA = () => {
             </div>
             <button
               type="submit"
-              className={`${styles.button} ${styles.formButton} bg-green-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline-green active:bg-green-600`}
+              className={`${styles.button} ${styles.formButton} bg-green-500 text-white font-bold py-2 px-4 rounded-sm focus:outline-hidden focus:shadow-outline-green active:bg-green-600`}
             >
               Send
             </button>
