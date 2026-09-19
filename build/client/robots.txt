@@ -1,0 +1,6 @@
+# https://xpatios.com.au/robots.txt
+User-agent: *
+Allow: /
+
+# Sitemap intentionally omitted — the URL structure changes in the rebuild.
+# Add `Sitemap: https://xpatios.com.au/sitemap.xml` once it exists.
