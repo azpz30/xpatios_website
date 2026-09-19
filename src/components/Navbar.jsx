@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { close, logo, menu } from '../assets';
 import { navLinks } from '../constants';
 
