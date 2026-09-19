@@ -307,7 +307,7 @@ const Navbar = () => {
 
   return (
     <header
-      className={`fixed inset-x-0 z-50 overflow-hidden transition-[top,background-color] duration-300 ${
+      className={`fixed inset-x-0 z-50 transition-[top,background-color] duration-300 ${
         solid ? 'top-0 hairline-b bg-paper' : 'top-0 bg-transparent'
       }`}
     >
