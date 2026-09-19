@@ -1,29 +1,37 @@
-import React from 'react'
 import { patioDesigns } from '../assets';
-import styles, { layout } from '../style';
+import { Section, Heading, Prose, Label, Figure } from './ui';
 
-const RedesignPatio = () => {
-  return (
-    <section className={layout.section}>
-        <div className={layout.sectionInfo}>
-            <h2 className={styles.heading2}>
-                Discover Versatile Elegance with <br className='sm:block hidden'/>
-                Our <u>Diverse Pergola</u> Styles
-            </h2>
-            <p className={`${styles.paragraph} max-w-[650px] mt-5`}>
-                Indulge in outdoor sophistication with our curated collection of pergola styles. 
-                From the sleek lines of Flat Sunroom Roofing to the timeless charm of Gabled Roof Awning, 
-                our designs redefine outdoor living. Whether freestanding or attached, each pergola is a 
-                statement of style, transforming your space into a personalized retreat. Discover the perfect 
-                blend of form and function with our versatile options. Welcome to a world where elegance meets 
-                versatility, and your outdoor dreams take shape effortlessly.
-            </p>
-        </div>
-        <div className={layout.sectionImg}>
-            <img src={patioDesigns} alt='patioDesigns' className="w-full h-full"/>
-        </div>
-    </section>
-  )
-}
+// Asymmetric editorial pair: text 4 cols, image 7, column 5 left empty
+// as a gutter. Alternates with
+// MegaPartner below, which puts the image on the left instead.
+const RedesignPatio = () => (
+  <Section hairline className="reveal">
+    <div className="grid items-center gap-10 md:grid-cols-12 md:gap-x-16">
+      <div className="md:order-1 md:col-span-4">
+        <Label>Our Range</Label>
+        <Heading as="h2" size="h2" className="mt-4">
+          Pergola Styles for Every Sydney Home
+        </Heading>
+        <Prose size="lede" className="mt-6">
+          Flat, gable, dome and insulated-panel roofs, attached or
+          freestanding. Each suits a different roofline, budget and amount of
+          shade, and we'll talk you through which fits your place before you
+          commit to anything.
+        </Prose>
+      </div>
+      <div className="md:order-2 md:col-span-7 md:col-start-6">
+        <Figure
+          className="reveal-media"
+          src={patioDesigns}
+          alt="A selection of Xpatios pergola and patio roofing designs"
+          ratio="3/2"
+          fit="contain"
+          treatment="none"
+          blend
+        />
+      </div>
+    </div>
+  </Section>
+);
 
-export default RedesignPatio
+export default RedesignPatio;

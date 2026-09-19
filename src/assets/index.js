@@ -1,4 +1,5 @@
 import logo from "./logo.jpg";
+import logoMark from "./logo-mark.png";
 import quotes from "./quotes.svg";
 import send from "./Send.svg";
 import shield from "./Shield.svg";
@@ -16,6 +17,7 @@ import stratcoPartner from "./stratcoPartner.png"
 
 export {
   logo,
+  logoMark,
   quotes,
   send,
   shield,
