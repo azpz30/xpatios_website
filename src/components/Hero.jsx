@@ -3,7 +3,7 @@ import { BsChevronCompactLeft, BsChevronCompactRight } from 'react-icons/bs';
 import styles from '../style';
 
 // Preload images
-const imageModules = import.meta.globEager('../assets/xpGallery/*.jpeg');
+const imageModules = import.meta.glob('../assets/xpGallery/*.jpeg', { eager: true });
 const images = Object.keys(imageModules).reduce((acc, key) => {
   const imageName = key.replace('../assets/xpGallery/', '');
   acc[imageName] = imageModules[key].default;

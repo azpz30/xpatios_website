@@ -26,12 +26,18 @@ const Footer = () => (
               {footerlink.links.map((link, index) => (
                 <li
                   key={link.name}
-                  className={`font-poppins font-normal text-[16px] leading-[24px] text-dimBlack hover:text-sky-400 cursor-pointer ${
+                  className={
                     index !== footerlink.links.length - 1 ? "mb-4" : "mb-0"
-                  }`}
-                  onClick={() => window.open(link.link)}
+                  }
                 >
-                  {link.name}
+                  <a
+                    href={link.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-poppins font-normal text-[16px] leading-[24px] text-dimBlack hover:text-sky-400 cursor-pointer"
+                  >
+                    {link.name}
+                  </a>
                 </li>
               ))}
             </ul>
@@ -45,17 +51,27 @@ const Footer = () => (
         Copyright Ⓒ 2025 Xpatios Pty Ltd. All Rights Reserved.
       </p>
 
-      <div style={{ backgroundColor: '#000000' }} className="flex flex-row md:mt-0 mt-6">
+      <div className="flex flex-row md:mt-0 mt-6">
         {socialMedia.map((social, index) => (
-          <img
+          <a
             key={social.id}
-            src={social.icon}
-            alt={social.id}
-            className={`w-[21px] h-[21px] object-contain cursor-pointer ${
+            href={social.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`Xpatios on ${social.name}`}
+            className={`cursor-pointer ${
               index !== socialMedia.length - 1 ? "mr-6" : "mr-0"
             }`}
-            onClick={() => window.open(social.link)}
-          />
+          >
+            {/* The source SVGs are fill="white" (inherited from the
+                template's dark footer), so they are inverted to read as
+                dark icons on this light background. */}
+            <img
+              src={social.icon}
+              alt=""
+              className="w-[21px] h-[21px] object-contain invert"
+            />
+          </a>
         ))}
       </div>
     </div>
