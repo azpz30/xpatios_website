@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router';
 import { Button } from './ui';
 
 // Preload images
@@ -68,10 +69,10 @@ const Hero = () => {
             and built to last, across Sydney.
           </p>
           <div className="mt-8 flex flex-wrap gap-4">
-            <Button variant="primary" size="lg">
+            <Button as={Link} to="/quote" variant="primary" size="lg">
               Get a Free Quote
             </Button>
-            <Button variant="onDark" size="lg">
+            <Button as={Link} to="/projects" variant="onDark" size="lg">
               View Our Work
             </Button>
           </div>

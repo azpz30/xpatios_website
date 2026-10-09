@@ -1,6 +1,8 @@
 import { useState } from "react";
 import emailjs from "emailjs-com";
 import { Section, Heading, Prose, Label, Button } from "./ui";
+import { services } from "../constants/services";
+import { site } from "../constants/site";
 
 // The one quote form on the site — always visible, never gated behind a
 // click. A Worker endpoint replaces the EmailJS call in a later phase;
@@ -22,15 +24,53 @@ const FIELDS = [
   },
 ];
 
+// Driven off services.js so a new service line appears here automatically
+// rather than being duplicated.
+const SELECTS = [
+  {
+    name: "service",
+    label: "Service required",
+    placeholder: "Select a service",
+    options: services.map((service) => service.name),
+  },
+  {
+    name: "budget",
+    label: "Budget",
+    placeholder: "Select a budget range",
+    options: [
+      "$3,000 – $5,000",
+      "$5,000 – $10,000",
+      "$10,000 – $15,000",
+      "$15,000 – $20,000",
+      "$20,000 – $30,000",
+      "$30,000 – $50,000",
+    ],
+  },
+];
+
 const inputClasses =
   "w-full border border-hairline bg-paper px-4 py-3 text-body text-ink outline-none transition-colors focus:border-accent focus:ring-2 focus:ring-accent/30";
 
-const CTA = () => {
+// Same box as inputClasses, minus the text colour — that is set per-select so
+// the unchosen placeholder reads as muted. The native chevron is kept (no
+// `appearance-none`) so the control still looks tappable on iOS.
+const selectClasses =
+  "w-full border border-hairline bg-paper px-4 py-3 text-body outline-none transition-colors focus:border-accent focus:ring-2 focus:ring-accent/30";
+
+/**
+ * `aside` replaces the left-hand column. On the homepage this section is one
+ * of many and needs its own heading, so the default stands. On /quote the
+ * page already carries an <h1> saying the same thing, so that page passes its
+ * own trust panel instead of repeating the heading.
+ */
+const CTA = ({ aside }) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phoneNumber: "",
     address: "",
+    service: "",
+    budget: "",
     description: "",
   });
   // idle | submitting | success | error
@@ -47,6 +87,20 @@ const CTA = () => {
 
     setStatus("submitting");
 
+    // The EmailJS template (template_w12v8t7) lives in the EmailJS dashboard,
+    // not in this repo, and only renders the placeholders it already has. So
+    // service and budget ride along at the top of `user_description` — which
+    // the template does render — instead of needing {{user_service}} and
+    // {{user_budget}} added over there. They are also still sent as their own
+    // params below; if those placeholders are ever added to the template,
+    // drop this prefix or the email will show both.
+    const descriptionWithDetails = [
+      `Service required: ${formData.service}`,
+      `Budget: ${formData.budget}`,
+      "",
+      formData.description,
+    ].join("\n");
+
     emailjs
       .send(
         "service_fgb2d2k", // EmailJS service ID
@@ -57,7 +111,9 @@ const CTA = () => {
           user_email: formData.email,
           phone_number: formData.phoneNumber,
           user_address: formData.address,
-          user_description: formData.description,
+          user_service: formData.service,
+          user_budget: formData.budget,
+          user_description: descriptionWithDetails,
         },
         "Rl35Y5E3j58NqP-5d" // EmailJS public key
       )
@@ -68,6 +124,8 @@ const CTA = () => {
           email: "",
           phoneNumber: "",
           address: "",
+          service: "",
+          budget: "",
           description: "",
         });
       })
@@ -81,20 +139,22 @@ const CTA = () => {
     <Section as="section" id="quote" hairline>
       <div className="grid gap-12 md:grid-cols-2 md:gap-20">
         <div>
-          <Heading as="h2" size="h2">
-            Get a free quote
-          </Heading>
-          <Prose className="mt-5">
-            Your dream project begins with a simple, free quote request.
-            Tell us a little about the job and we&rsquo;ll be in touch.
-          </Prose>
+          {aside ?? (
+            <>
+              <Heading as="h2" size="h2">
+                Get a free quote
+              </Heading>
+              <Prose className="mt-5">
+                Your dream project begins with a simple, free quote request.
+                Tell us a little about the job and we&rsquo;ll be in touch.
+              </Prose>
+            </>
+          )}
         </div>
 
-        <form
-          onSubmit={handleFormSubmit}
-          noValidate
-          className="flex flex-col gap-6"
-        >
+        {/* No `noValidate` — every field is required, so the browser's own
+            validation is what enforces it on submit. */}
+        <form onSubmit={handleFormSubmit} className="flex flex-col gap-6">
           {FIELDS.map((field) => (
             <div key={field.name} className="flex flex-col gap-2">
               <Label as="label" htmlFor={`quote-${field.name}`}>
@@ -110,6 +170,33 @@ const CTA = () => {
                 required
                 className={inputClasses}
               />
+            </div>
+          ))}
+
+          {SELECTS.map((field) => (
+            <div key={field.name} className="flex flex-col gap-2">
+              <Label as="label" htmlFor={`quote-${field.name}`}>
+                {field.label}
+              </Label>
+              <select
+                id={`quote-${field.name}`}
+                name={field.name}
+                value={formData[field.name]}
+                onChange={handleInputChange}
+                required
+                className={`${selectClasses} ${
+                  formData[field.name] ? "text-ink" : "text-muted"
+                }`}
+              >
+                <option value="" disabled>
+                  {field.placeholder}
+                </option>
+                {field.options.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
             </div>
           ))}
 
@@ -139,9 +226,20 @@ const CTA = () => {
 
           <p aria-live="polite" className="text-small text-muted">
             {status === "success" &&
-              "Thanks, we’ve received your request and will be in touch shortly."}
-            {status === "error" &&
-              "Something went wrong sending your request. Please try again or call us directly."}
+              `Thanks, we’ve received your request and will be in touch ${site.responseTime}.`}
+            {status === "error" && (
+              <>
+                Something went wrong sending your request. Please try again,
+                or call us on{" "}
+                <a
+                  href={site.phoneHref}
+                  className="text-ink underline decoration-hairline underline-offset-[6px] hover:decoration-accent"
+                >
+                  {site.phone}
+                </a>
+                .
+              </>
+            )}
           </p>
         </form>
       </div>
