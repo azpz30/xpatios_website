@@ -19,7 +19,6 @@ export function useCountUp(target, { duration = 1600, decimals = 0 } = {}) {
     const el = ref.current;
     if (!el || hasRun.current) return;
 
-    // Respect the OS setting: leave the final value in place, no motion.
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     let frame;

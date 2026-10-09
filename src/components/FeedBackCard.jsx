@@ -1,25 +1,30 @@
-import { quotes } from "../assets";
-
-const FeedbackCard = ({ content, name, title, img }) => (
-  <div className="flex justify-between flex-col px-10 py-12 rounded-[20px]  max-w-[370px] md:mr-10 sm:mr-5 mr-0 my-5 feedback-card">
-    <img src={quotes} alt="double_quotes" className="w-[42.6px] h-[27.6px] object-contain" />
-    <p className="font-poppins font-normal text-[18px] leading-[32.4px] text-black my-10">
-      {content}
-    </p>
-
-    <div className="flex flex-row">
-      <img src={img} alt={name} className="w-[48px] h-[48px] rounded-full" />
-      <div className="flex flex-col ml-4">
-        <h4 className="font-poppins font-semibold text-[20px] leading-[32px] text-black">
-          {name}
-        </h4>
-        <p className="font-poppins font-normal text-[16px] leading-[24px] text-dimBlack">
-          {title}
-        </p>
-      </div>
-    </div>
-  </div>
+const Stars = ({ rating = 5 }) => (
+  <span className="flex gap-0.5" aria-hidden="true">
+    {Array.from({ length: 5 }, (_, i) => (
+      <svg key={i} viewBox="0 0 20 20" className={`h-4 w-4 ${i < rating ? 'fill-accent' : 'fill-hairline'}`}>
+        <path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8L1.5 7.7l5.9-.9L10 1.5z" />
+      </svg>
+    ))}
+  </span>
 );
 
+const FeedbackCard = ({ content, name, rating = 5, source }) => (
+  <figure className="flex w-[86vw] shrink-0 snap-start flex-col justify-between gap-8 border border-hairline bg-paper p-8 sm:w-[30rem] md:p-10">
+    <div>
+      <Stars rating={rating} />
+      <blockquote className="mt-6 font-display text-lede text-ink">
+        <p className="line-clamp-[10]">{content}</p>
+      </blockquote>
+    </div>
+    <figcaption className="mt-8 flex items-baseline justify-between gap-4">
+      <span className="text-small font-medium text-ink">{name}</span>
+      {source && (
+        <span className="text-label font-mono uppercase tracking-[0.08em] text-muted">
+          via {source}
+        </span>
+      )}
+    </figcaption>
+  </figure>
+);
 
 export default FeedbackCard;
