@@ -22,6 +22,12 @@ export const site = {
   // --------------------------------------------------------------------
 
   email: 'info@xpatios.com.au',
+
+  // The reply window promised on the quote form, in both the pre-submit
+  // trust panel and the post-submit confirmation. It is an advertised
+  // commitment, not copy — change it here and both move together, and keep
+  // it to something the team can actually hit every time.
+  responseTime: 'within one business day',
   address: {
     street: '166 Chapel Rd',
     suburb: 'Bankstown',
